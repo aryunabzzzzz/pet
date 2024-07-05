@@ -1,0 +1,41 @@
+services:
+  php:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile
+    container_name: php
+    restart: always
+    ports:
+      - 9000:9000
+    volumes:
+      - '.:/var/www/html'
+    depends_on:
+      - mysql
+    env_file:
+      - .env
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - '.:/var/www/html'
+      - './nginx:/etc/nginx/conf.d'
+    depends_on:
+      - php
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
