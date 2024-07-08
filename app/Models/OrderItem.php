@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $quantity
  * @property float $price
  *
- *
+ * @property-read Food|HasMany $food
  */
 class OrderItem extends Model
 {
@@ -113,5 +114,12 @@ class OrderItem extends Model
         return $this;
     }
 
+    /**
+     * @return HasMany
+     */
+    public function foods(): HasMany
+    {
+        return $this->hasMany(Food::class);
+    }
 
 }
