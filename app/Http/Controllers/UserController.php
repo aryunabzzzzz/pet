@@ -44,22 +44,4 @@ class UserController extends Controller
     {
         return $this->userService->destroy($id);
     }
-
-    //нужно сделать отдельные таблицы cart, cart_items
-    public function getCart(int $id): Cart
-    {
-        return $this->userService->getCart($id);
-    }
-
-    //вынести в OrderController
-    public function getOrders(int $id): Collection
-    {
-        return $this->userService->getOrders($id);
-    }
-
-    //вынести в OrderController
-    public function getOrder(int $id, int $orderId): Order
-    {
-        return $this->userService->getOrder($id, $orderId);
-    }
 }
