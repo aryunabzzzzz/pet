@@ -28,12 +28,12 @@ class FoodController extends Controller
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return FoodResource
      *
      * Показывает один продукт
      */
-    public function show($id): FoodResource
+    public function show(int $id): FoodResource
     {
         $food = $this->foodService->show($id);
         return new FoodResource($food);
@@ -65,12 +65,12 @@ class FoodController extends Controller
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return int
      *
      * Удаляет объект
      */
-    public function destroy($id): int
+    public function destroy(int $id): int
     {
         return $this->foodService->destroy($id);
     }
