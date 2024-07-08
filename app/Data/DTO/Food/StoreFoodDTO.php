@@ -4,7 +4,6 @@ namespace App\Data\DTO\Food;
 class StoreFoodDTO
 {
     public function __construct(
-        //в чем разница между public и private?
         public readonly string $name,
         public readonly int $categoryId,
         public readonly float $price,
