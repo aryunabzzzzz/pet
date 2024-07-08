@@ -41,18 +41,4 @@ class UserService
         return $cart;
     }
 
-    //вынести в OrderService
-    public function getOrders(int $userId): Collection
-    {
-        $orders = User::find($userId)->orders;
-        return $orders;
-    }
-
-    //вынести в OrderService
-    public function getOrder(int $userId, int $orderId): Order
-    {
-        $order = User::find($userId)->orders()->find($orderId);
-        return $order;
-    }
-
 }

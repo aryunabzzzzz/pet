@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -25,12 +26,15 @@ Route::get('foods/{id}', [FoodController::class, 'show']);
 Route::post('foods', [FoodController::class, 'store']);
 Route::patch('foods/{id}', [FoodController::class, 'update']);
 Route::delete('foods/{id}', [FoodController::class, 'destroy']);
-Route::get('foods/{id}/image', [FoodController::class, 'getImg']);
 
 Route::get('users', [UserController::class, 'index']);
 Route::get('users/{id}', [UserController::class, 'show']);
 Route::post('users', [UserController::class, 'store']);
 Route::patch('users/{id}', [UserController::class, 'update']);
 Route::delete('users/{id}', [UserController::class, 'destroy']);
-Route::get('users/{id}/cart', [UserController::class, 'getCart']);
-Route::get('users/{id}/orders', [UserController::class, 'getOrders']);
+
+Route::get('carts',[CartController::class,'index']);
+Route::get('carts/{id}',[CartController::class,'show']);
+Route::post('carts', [CartController::class, 'store']);
+Route::patch('carts/{id}', [CartController::class, 'update']);
+Route::delete('carts/{id}', [CartController::class, 'destroy']);
