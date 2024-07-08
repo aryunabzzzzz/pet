@@ -31,6 +31,18 @@ class StoreFoodRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return array
+     */
+    public function messages(): array
+    {
+        return [
+            '*.required'=>'Поле :attribute обязательное',
+            '*.string'=>'Поле :attribute должно быть строкой',
+            '*.numeric'=>'Поле :attribute должно быть числом',
+        ];
+    }
+
 
     /**
      * @return string
