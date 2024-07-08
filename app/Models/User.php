@@ -14,7 +14,6 @@ use Illuminate\Notifications\Notifiable;
  * @property int $id
  * @property int $role_id
  * @property string $name
- * @property int $avatar_id
  * @property string $phone
  * @property string $email
  * @property string $birthday
@@ -41,7 +40,6 @@ class User extends Authenticatable
         'id',
         'role_id',
         'name',
-        'avatar_id',
         'phone',
         'email',
         'birthday',
@@ -112,24 +110,6 @@ class User extends Authenticatable
     public function setName(string $name): self
     {
         $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getAvatarId(): int
-    {
-        return $this->avatar_id;
-    }
-
-    /**
-     * @param int $avatar_id
-     * @return User
-     */
-    public function setAvatarId(int $avatar_id): self
-    {
-        $this->avatar_id = $avatar_id;
         return $this;
     }
 

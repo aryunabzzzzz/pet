@@ -18,8 +18,7 @@ class UserResource extends JsonResource
         return [
             'id'=>$this->resource->getId(),
             'role_id'=>$this->resource->getRoleId(),
-            'name'=>$this->resource->getName(),
-            'avatar_id'=>$this->resource->getAvatarId(),
+            'name'=>$this->resource->getName()
         ];
     }
 }

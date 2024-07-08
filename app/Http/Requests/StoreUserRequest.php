@@ -25,11 +25,19 @@ class StoreUserRequest extends FormRequest
         return [
             'roleId'=>'required|exists:roles,id',
             'name'=>'required|string',
-            'avatarId'=>'exists:images,id',
             'phone'=>'required|string|unique:users,phone',
             'email'=>'required|string|email|unique:users,email',
             'birthday'=>'nullable|date',
             'password'=>'required|string',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            '*.required'=>'Поле :attribute обязательное',
+            '*.string'=>'Поле :attribute должно быть строкой',
+            '*.date'=>'Поле :attribute должно быть датой',
         ];
     }
 
@@ -47,14 +55,6 @@ class StoreUserRequest extends FormRequest
     private function getName(): string
     {
         return $this->input('name');
-    }
-
-    /**
-     * @return int
-     */
-    private function getAvatarId(): int
-    {
-        return $this->input('avatarId');
     }
 
     /**
@@ -97,7 +97,6 @@ class StoreUserRequest extends FormRequest
         return new StoreUserDTO(
         $this->getRoleId(),
         $this->getName(),
-        $this->getAvatarId(),
         $this->getPhone(),
         $this->getEmail(),
         $this->getBirthday(),

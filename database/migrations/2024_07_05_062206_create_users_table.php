@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('role_id');
             $table->string('name');
-            $table->unsignedBigInteger('avatar_id');
             $table->string('phone')->unique();
             $table->string('email')->unique();
             $table->date('birthday')->nullable();

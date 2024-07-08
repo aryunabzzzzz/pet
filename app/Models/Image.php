@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property string $path
  *
- * @property-read User|BelongsTo $user
  * @property-read Food|BelongsTo $food
  */
 
@@ -56,13 +55,6 @@ class Image extends Model
         return $this;
     }
 
-    /**
-     * @return BelongsTo
-     */
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'avatar_id', 'id');
-    }
 
     /**
      * @return BelongsTo
