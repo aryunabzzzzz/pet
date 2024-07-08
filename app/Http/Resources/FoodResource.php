@@ -17,11 +17,15 @@ class FoodResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            /** @var int $id */
             'id'=>$this->resource->getId(),
             'name'=>$this->resource->getName(),
+            /** @var int $category_id */
             'category_id'=>$this->resource->getCategoryId(),
+            /** @var float $price */
             'price'=>$this->resource->getPrice(),
             'description'=>$this->resource->getDescription(),
+            /** @var int $img_id */
             'img_id'=>$this->resource->getImgId(),
         ];
     }
