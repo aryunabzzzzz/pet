@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FoodController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -38,3 +39,7 @@ Route::get('carts/{id}',[CartController::class,'show']);
 Route::post('carts', [CartController::class, 'store']);
 Route::patch('carts/{id}', [CartController::class, 'update']);
 Route::delete('carts/{id}', [CartController::class, 'destroy']);
+
+Route::get('images',[ImageController::class,'index']);
+Route::get('images/{id}',[ImageController::class,'show']);
+Route::delete('images/{id}',[ImageController::class,'destroy']);
