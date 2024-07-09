@@ -2,15 +2,22 @@
 
 namespace App\Services;
 
+use App\Data\DTO\Food\GetFoodDTO;
 use App\Data\DTO\Food\StoreFoodDTO;
 use App\Models\Food;
+use App\Services\Filters\Food\CategoryIdFilter;
+use App\Services\Filters\Food\MinPriceFilter;
+use App\Services\Filters\Food\NameFilter;
+use App\Services\Filters\Food\PriceFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 class FoodService
 {
-    public function index(): Collection
+    public function index(GetFoodDTO $DTO): Collection
     {
-        return Food::with('image')->get();
+        $query = Food::query()->with('image');
+        return $this->getQuery($query, $DTO->toArray())->get();
     }
 
     public function show(int $id): Collection
@@ -31,6 +38,15 @@ class FoodService
     public function destroy(int $id): int
     {
         return Food::destroy($id);
+    }
+
+    private function getQuery(Builder $query, array $params): Builder
+    {
+        $query = CategoryIdFilter::modify($query, $params);
+        $query = PriceFilter::modify($query, $params);
+        $query = MinPriceFilter::modify($query, $params);
+        $query = MinPriceFilter::modify($query, $params);
+        return NameFilter::modify($query, $params);
     }
 
 }

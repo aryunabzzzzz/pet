@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetFoodRequest;
 use App\Http\Requests\StoreFoodRequest;
 use App\Http\Resources\FoodResource;
+use App\Models\Food;
 use App\Services\FoodService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class FoodController extends Controller
@@ -16,11 +19,11 @@ class FoodController extends Controller
     /**
      * @return AnonymousResourceCollection
      *
-     * Показывает все продукты
+     * Показывает все продукты(есть фильтрация)
      */
-    public function index(): AnonymousResourceCollection
+    public function index(GetFoodRequest $request): AnonymousResourceCollection
     {
-        $foods = $this->foodService->index();
+        $foods = $this->foodService->index($request->getFoodDTO());
         return FoodResource::collection($foods);
     }
 
