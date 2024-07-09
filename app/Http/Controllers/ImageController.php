@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ImageResource;
+use App\Http\Resources\JustBoolResource;
 use App\Services\ImageService;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -33,10 +34,11 @@ class ImageController extends Controller
 
     /**
      * @param int $id
-     * @return bool
+     * @return JustBoolResource
      */
-    public function destroy(int $id): bool
+    public function destroy(int $id): JustBoolResource
     {
-        return $this->imageService->deleteById($id);
+        $result = $this->imageService->deleteById($id);
+        return new JustBoolResource($result);
     }
 }
