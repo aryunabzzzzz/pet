@@ -4,10 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFoodRequest;
 use App\Http\Resources\FoodResource;
-use App\Http\Resources\ImageResource;
-use App\Models\Food;
 use App\Services\FoodService;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class FoodController extends Controller
@@ -29,14 +26,14 @@ class FoodController extends Controller
 
     /**
      * @param int $id
-     * @return FoodResource
+     * @return AnonymousResourceCollection
      *
      * Показывает один продукт
      */
-    public function show(int $id): FoodResource
+    public function show(int $id): AnonymousResourceCollection
     {
         $food = $this->foodService->show($id);
-        return new FoodResource($food);
+        return FoodResource::collection($food);
     }
 
     /**
@@ -73,11 +70,5 @@ class FoodController extends Controller
     public function destroy(int $id): int
     {
         return $this->foodService->destroy($id);
-    }
-
-    public function getImg($id): ImageResource|null
-    {
-        $image = $this->foodService->getImage($id);
-        return new ImageResource($image);
     }
 }

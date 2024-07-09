@@ -3,23 +3,19 @@
 namespace App\Services;
 
 use App\Data\DTO\Food\StoreFoodDTO;
-use App\Http\Requests\StoreFoodRequest;
-use App\Http\Resources\FoodResource;
-use App\Http\Resources\ImageResource;
 use App\Models\Food;
-use App\Models\Image;
 use Illuminate\Database\Eloquent\Collection;
 
 class FoodService
 {
     public function index(): Collection
     {
-        return Food::all();
+        return Food::with('image')->get();
     }
 
-    public function show(int $id): Food
+    public function show(int $id): Collection
     {
-        return Food::find($id);
+        return Food::with('image')->where('id',$id)->get();
     }
 
     public function store(StoreFoodDTO $DTO): Food
@@ -35,11 +31,6 @@ class FoodService
     public function destroy(int $id): int
     {
         return Food::destroy($id);
-    }
-
-    public function getImage(int $id): Image|null
-    {
-        return Food::find($id)->image;
     }
 
 }

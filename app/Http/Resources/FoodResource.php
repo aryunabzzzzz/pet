@@ -25,8 +25,7 @@ class FoodResource extends JsonResource
             /** @var float $price */
             'price'=>$this->resource->getPrice(),
             'description'=>$this->resource->getDescription(),
-            /** @var int $img_id */
-            'img_id'=>$this->resource->getImgId(),
+            'image'=>new ImageResource($this->whenLoaded('image')),
         ];
     }
 }
