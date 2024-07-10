@@ -5,29 +5,21 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
 */
 
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
-Route::get('foods', [FoodController::class, 'index']);
-Route::get('foods/{id}', [FoodController::class, 'show']);
-Route::post('foods', [FoodController::class, 'store']);
-Route::patch('foods/{id}', [FoodController::class, 'update']);
-Route::delete('foods/{id}', [FoodController::class, 'destroy']);
+Route::controller(FoodController::class)->group(function () {
+    Route::get('foods', 'index');
+    Route::get('foods/{id}', 'show');
+    Route::post('foods', 'store');
+    Route::patch('foods/{id}', 'update');
+    Route::delete('foods/{id}', 'destroy');
+});
 
 Route::get('users', [UserController::class, 'index']);
 Route::get('users/{id}', [UserController::class, 'show']);
@@ -35,11 +27,13 @@ Route::post('users', [UserController::class, 'store']);
 Route::patch('users/{id}', [UserController::class, 'update']);
 Route::delete('users/{id}', [UserController::class, 'destroy']);
 
-Route::get('carts',[CartController::class,'index']);
-Route::get('carts/{id}',[CartController::class,'show']);
-Route::post('carts', [CartController::class, 'store']);
-Route::patch('carts/{id}', [CartController::class, 'update']);
-Route::delete('carts/{id}', [CartController::class, 'destroy']);
+Route::middleware('auth:api')->controller(CartController::class)->group(function () {
+    Route::get('carts','index');
+    Route::get('carts/{id}','show');
+    Route::post('carts', 'store');
+    Route::patch('carts/{id}', 'update');
+    Route::delete('carts/{id}', 'destroy');
+});
 
 Route::get('images',[ImageController::class,'index']);
 Route::get('images/{id}',[ImageController::class,'show']);
