@@ -5,14 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * @property int $id
  * @property int $customer_id
  * @property string $address
- * @property string $comment
+ * @property string|null $comment
  *
  * @property-read User|BelongsTo $user
+ * @property-read Food|BelongsToMany $food
  */
 class Order extends Model
 {
@@ -77,9 +79,9 @@ class Order extends Model
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getComment(): string
+    public function getComment(): string|null
     {
         return $this->comment;
     }
@@ -99,6 +101,14 @@ class Order extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'customer_id');
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function foods(): BelongsToMany
+    {
+        return $this->belongsToMany(Food::class, 'order_items')->withPivot('quantity','price')->withTimestamps();
     }
 }
