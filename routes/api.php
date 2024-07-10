@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FoodController;
 use App\Http\Controllers\ImageController;
@@ -18,9 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
 
 Route::get('foods', [FoodController::class, 'index']);
 Route::get('foods/{id}', [FoodController::class, 'show']);
@@ -43,3 +44,11 @@ Route::delete('carts/{id}', [CartController::class, 'destroy']);
 Route::get('images',[ImageController::class,'index']);
 Route::get('images/{id}',[ImageController::class,'show']);
 Route::delete('images/{id}',[ImageController::class,'destroy']);
+
+Route::prefix('auth')->group(function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+});
+
