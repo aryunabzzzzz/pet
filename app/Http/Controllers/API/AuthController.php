@@ -4,26 +4,40 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Support\Facades\Config;
+use App\Http\Resources\JustBoolResource;
+use App\Services\Auth\LoginService;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    public function login(LoginRequest $request)
+    public function __construct(public LoginService  $loginService)
     {
-        $credentials = $request->only('email', 'password');
-        if (! $token = auth()->attempt($credentials)) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        return $this->respondWithToken($token);
     }
 
-    public function respondWithToken($token)
+    /**
+     * @param LoginRequest $request
+     * @return JsonResponse
+     */
+    public function login(LoginRequest $request): JsonResponse
     {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in'=>Config::get('jwt.ttl')
-        ]);
+        return $this->loginService->login($request->getEmail(), $request->getPassword());
     }
+
+    /**
+     * @return JustBoolResource
+     */
+    public function logout(): JustBoolResource
+    {
+        $result = $this->loginService->logout();
+        return new JustBoolResource($result);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function refresh(): JsonResponse
+    {
+        return $this->loginService->refresh();
+    }
+
 }
