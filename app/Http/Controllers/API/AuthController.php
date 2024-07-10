@@ -4,13 +4,14 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Resources\JustBoolResource;
-use App\Services\Auth\LoginService;
+use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
-    public function __construct(public LoginService  $loginService)
+    public function __construct(public AuthService $loginService)
     {
     }
 
@@ -21,6 +22,15 @@ class AuthController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         return $this->loginService->login($request->getEmail(), $request->getPassword());
+    }
+
+    /**
+     * @param RegisterRequest $request
+     * @return JsonResponse
+     */
+    public function register(RegisterRequest $request): JsonResponse
+    {
+        return $this->loginService->register($request->registerUserDTO());
     }
 
     /**

@@ -2,10 +2,13 @@
 
 namespace App\Services\Auth;
 
+use App\Data\DTO\Auth\RegisterUserDTO;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
 
-class LoginService
+class AuthService
 {
     public function login(string $email, string $password): JsonResponse
     {
@@ -26,6 +29,22 @@ class LoginService
             'token_type' => 'bearer',
             'expires_in'=>Config::get('jwt.ttl')
         ]);
+    }
+
+    public function register(RegisterUserDTO $DTO): JsonResponse
+    {
+        $user = User::create([
+            'role_id' => $DTO->roleId,
+            'name' => $DTO->name,
+            'phone' => $DTO->phone,
+            'email' => $DTO->email,
+            'birthday' => $DTO->birthday,
+            'password' => Hash::make($DTO->password),
+        ]);
+        $token = auth()->login($user);
+
+        return $this->respondWithToken($token);
+
     }
 
     public function logout(): bool
