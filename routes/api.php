@@ -45,4 +45,9 @@ Route::get('images',[ImageController::class,'index']);
 Route::get('images/{id}',[ImageController::class,'show']);
 Route::delete('images/{id}',[ImageController::class,'destroy']);
 
-Route::post('auth/login', [AuthController::class, 'login']);
+Route::prefix('auth')->group(function () {
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+});
+
