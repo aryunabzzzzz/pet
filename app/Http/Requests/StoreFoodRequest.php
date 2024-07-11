@@ -26,8 +26,7 @@ class StoreFoodRequest extends FormRequest
             'name'=>'required|string',
             'categoryId'=>'required|exists:categories,id',
             'price'=>'required|numeric',
-            'description'=>'string',
-            'imgId'=>'exists:images,id',
+            'description'=>'string'
         ];
     }
 
@@ -77,14 +76,6 @@ class StoreFoodRequest extends FormRequest
     }
 
     /**
-     * @return int|null
-     */
-    private function getImgId(): int|null
-    {
-        return $this->input('imgId');
-    }
-
-    /**
      * @return StoreFoodDTO
      */
     public function storeFoodDTO(): StoreFoodDTO
@@ -93,8 +84,7 @@ class StoreFoodRequest extends FormRequest
             $this->getName(),
             $this->getCategoryId(),
             $this->getPrice(),
-            $this->getDescription(),
-            $this->getImgId()
+            $this->getDescription()
         );
     }
 }

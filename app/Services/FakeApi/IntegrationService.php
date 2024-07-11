@@ -21,16 +21,14 @@ class IntegrationService
         foreach ($products as $product) {
             if($product['available']){
                 if(Food::where('name', $product['name'])->where('price', $product['price'])->doesntExist()){
-                    $image = Image::create([
-                        'path' => $product['image'],
-                    ]);
-
                     $food = Food::create([
                         'name' => $product['name'],
                         'category_id'=>6,
-                        'price' => $product['price'],
-                        'img_id' => $image->getId(),
+                        'price' => $product['price']
                     ]);
+                    $image = new Image();
+                    $image->setPath($product['image']);
+                    $food->image()->save($image);
                 }
             }
         }
@@ -50,13 +48,13 @@ class IntegrationService
                 if($food->getName() == $product['name']){
                     $flag = true;
                     if(!$product['available']){
-                        $food->image->delete();
+                        $food->image()->delete();
                         $food->delete();
                     }
                 }
             }
             if(!$flag){
-                $food->image->delete();
+                $food->image()->delete();
                 $food->delete();
             }
         }

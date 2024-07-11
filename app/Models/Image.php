@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @property int $id
  * @property string $path
  *
- * @property-read Food|BelongsTo $food
  */
 
 class Image extends Model
@@ -55,13 +55,12 @@ class Image extends Model
         return $this;
     }
 
-
     /**
-     * @return BelongsTo
+     * @return MorphTo
      */
-    public function food(): BelongsTo
+    public function imageable(): MorphTo
     {
-        return $this->belongsTo(Food::class, 'img_id', 'id');
+        return $this->morphTo();
     }
 
 }

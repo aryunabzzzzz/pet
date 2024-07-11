@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\GetFoodRequest;
 use App\Http\Requests\StoreFoodRequest;
 use App\Http\Resources\FoodResource;
-use App\Models\Food;
+use App\Http\Resources\JustBoolResource;
 use App\Services\FoodService;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class FoodController extends Controller
@@ -54,24 +53,25 @@ class FoodController extends Controller
     /**
      * @param StoreFoodRequest $request
      * @param int $id
-     * @return int
+     * @return JustBoolResource
      *
      * Редактирует объект
      */
-    public function update(StoreFoodRequest $request, int $id): int
+    public function update(StoreFoodRequest $request, int $id): JustBoolResource
     {
-        return $this->foodService->update($request->storeFoodDTO(), $id);
-
+        $result = $this->foodService->update($request->storeFoodDTO(), $id);
+        return new JustBoolResource($result);
     }
 
     /**
      * @param int $id
-     * @return int
+     * @return JustBoolResource
      *
      * Удаляет объект
      */
-    public function destroy(int $id): int
+    public function destroy(int $id): JustBoolResource
     {
-        return $this->foodService->destroy($id);
+        $result = $this->foodService->destroy($id);
+        return new JustBoolResource($result);
     }
 }

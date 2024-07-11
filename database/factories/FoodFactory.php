@@ -20,8 +20,7 @@ class FoodFactory extends Factory
             'name' => $this->faker->text(10),
             'category_id' => rand(1, 5),
             'price' => $this->faker->randomFloat(1, 10, 200),
-            'description' => $this->faker->text(200),
-            'img_id' => rand(1, 5)
+            'description' => $this->faker->text(200)
         ];
     }
 }

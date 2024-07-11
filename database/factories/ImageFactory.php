@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Drink;
+use App\Models\Food;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,6 +20,8 @@ class ImageFactory extends Factory
     {
         return [
             'path' => $this->faker->imageUrl(),
+            'imageable_type' => null,
+            'imageable_id' => null,
         ];
     }
 }

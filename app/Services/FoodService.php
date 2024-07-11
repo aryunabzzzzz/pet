@@ -30,14 +30,18 @@ class FoodService
         return Food::create($DTO->toArray());
     }
 
-    public function update(StoreFoodDTO $DTO, int $id): int
+    public function update(StoreFoodDTO $DTO, int $id): bool
     {
-        return Food::where('id', $id)->update($DTO->toArray());
+        Food::where('id', $id)->update($DTO->toArray());
+        return true;
     }
 
-    public function destroy(int $id): int
+    public function destroy(int $id): bool
     {
-        return Food::destroy($id);
+        $food = Food::find($id);
+        $food->image()->delete();
+        $food->delete();
+        return true;
     }
 
     private function getQuery(Builder $query, array $params): Builder
