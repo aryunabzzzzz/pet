@@ -7,8 +7,7 @@ class StoreFoodDTO
         public readonly string $name,
         public readonly int $categoryId,
         public readonly float $price,
-        public readonly string|null $description,
-        public readonly int|null $imgId
+        public readonly string|null $description
     )
     {
     }
@@ -22,8 +21,7 @@ class StoreFoodDTO
           'name' => $this->name,
           'category_id' => $this->categoryId,
           'price' => $this->price,
-          'description' => $this->description,
-          'img_id' => $this->imgId
+          'description' => $this->description
         ];
     }
 }

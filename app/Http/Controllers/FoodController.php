@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\GetFoodRequest;
 use App\Http\Requests\StoreFoodRequest;
 use App\Http\Resources\FoodResource;
-use App\Http\Resources\ImageResource;
-use App\Models\Food;
+use App\Http\Resources\JustBoolResource;
 use App\Services\FoodService;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class FoodController extends Controller
@@ -19,24 +18,24 @@ class FoodController extends Controller
     /**
      * @return AnonymousResourceCollection
      *
-     * Показывает все продукты
+     * Показывает все продукты(есть фильтрация)
      */
-    public function index(): AnonymousResourceCollection
+    public function index(GetFoodRequest $request): AnonymousResourceCollection
     {
-        $foods = $this->foodService->index();
+        $foods = $this->foodService->index($request->getFoodDTO());
         return FoodResource::collection($foods);
     }
 
     /**
-     * @param $id
-     * @return FoodResource
+     * @param int $id
+     * @return AnonymousResourceCollection
      *
      * Показывает один продукт
      */
-    public function show($id): FoodResource
+    public function show(int $id): AnonymousResourceCollection
     {
         $food = $this->foodService->show($id);
-        return new FoodResource($food);
+        return FoodResource::collection($food);
     }
 
     /**
@@ -54,30 +53,25 @@ class FoodController extends Controller
     /**
      * @param StoreFoodRequest $request
      * @param int $id
-     * @return int
+     * @return JustBoolResource
      *
      * Редактирует объект
      */
-    public function update(StoreFoodRequest $request, int $id): int
+    public function update(StoreFoodRequest $request, int $id): JustBoolResource
     {
-        return $this->foodService->update($request->storeFoodDTO(), $id);
-
+        $result = $this->foodService->update($request->storeFoodDTO(), $id);
+        return new JustBoolResource($result);
     }
 
     /**
-     * @param $id
-     * @return int
+     * @param int $id
+     * @return JustBoolResource
      *
      * Удаляет объект
      */
-    public function destroy($id): int
+    public function destroy(int $id): JustBoolResource
     {
-        return $this->foodService->destroy($id);
-    }
-
-    public function getImg($id): ImageResource|null
-    {
-        $image = $this->foodService->getImage($id);
-        return new ImageResource($image);
+        $result = $this->foodService->destroy($id);
+        return new JustBoolResource($result);
     }
 }

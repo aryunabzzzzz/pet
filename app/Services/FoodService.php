@@ -2,24 +2,27 @@
 
 namespace App\Services;
 
+use App\Data\DTO\Food\GetFoodDTO;
 use App\Data\DTO\Food\StoreFoodDTO;
-use App\Http\Requests\StoreFoodRequest;
-use App\Http\Resources\FoodResource;
-use App\Http\Resources\ImageResource;
 use App\Models\Food;
-use App\Models\Image;
+use App\Services\Filters\Food\CategoryIdFilter;
+use App\Services\Filters\Food\MinPriceFilter;
+use App\Services\Filters\Food\NameFilter;
+use App\Services\Filters\Food\PriceFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 
 class FoodService
 {
-    public function index(): Collection
+    public function index(GetFoodDTO $DTO): Collection
     {
-        return Food::all();
+        $query = Food::query()->with('image');
+        return $this->getQuery($query, $DTO->toArray())->get();
     }
 
-    public function show(int $id): Food
+    public function show(int $id): Collection
     {
-        return Food::find($id);
+        return Food::with('image')->where('id',$id)->get();
     }
 
     public function store(StoreFoodDTO $DTO): Food
@@ -27,19 +30,27 @@ class FoodService
         return Food::create($DTO->toArray());
     }
 
-    public function update(StoreFoodDTO $DTO, int $id): int
+    public function update(StoreFoodDTO $DTO, int $id): bool
     {
-        return Food::where('id', $id)->update($DTO->toArray());
+        Food::where('id', $id)->update($DTO->toArray());
+        return true;
     }
 
-    public function destroy(int $id): int
+    public function destroy(int $id): bool
     {
-        return Food::destroy($id);
+        $food = Food::find($id);
+        $food->image()->delete();
+        $food->delete();
+        return true;
     }
 
-    public function getImage(int $id): Image|null
+    private function getQuery(Builder $query, array $params): Builder
     {
-        return Food::find($id)->image;
+        $query = CategoryIdFilter::modify($query, $params);
+        $query = PriceFilter::modify($query, $params);
+        $query = MinPriceFilter::modify($query, $params);
+        $query = MinPriceFilter::modify($query, $params);
+        return NameFilter::modify($query, $params);
     }
 
 }

@@ -4,34 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**
  * @property int $id
  * @property string $name
- * @property int $category_id
  * @property float $price
  * @property string|null $description
  *
- * @property-read Category|HasOne $category
  * @property-read Image|MorphOne $image
  */
-class Food extends Model
+class Drink extends Model
 {
     use HasFactory;
 
     public $timestamps = true;
 
-    protected $table = 'foods';
+    protected $table = 'drink';
 
-    /**
-     * @var array
-     */
     protected $fillable = [
         'id',
         'name',
-        'category_id',
         'price',
         'description'
     ];
@@ -54,29 +47,11 @@ class Food extends Model
 
     /**
      * @param string $name
-     * @return Food
+     * @return self
      */
     public function setName(string $name): self
     {
         $this->name = $name;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getCategoryId(): int
-    {
-        return $this->category_id;
-    }
-
-    /**
-     * @param int $category_id
-     * @return Food
-     */
-    public function setCategoryId(int $category_id): self
-    {
-        $this->category_id = $category_id;
         return $this;
     }
 
@@ -90,7 +65,7 @@ class Food extends Model
 
     /**
      * @param float $price
-     * @return Food
+     * @return self
      */
     public function setPrice(float $price): self
     {
@@ -101,27 +76,19 @@ class Food extends Model
     /**
      * @return string|null
      */
-    public function getDescription(): string|null
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
      * @param string $description
-     * @return Food
+     * @return self
      */
     public function setDescription(string $description): self
     {
         $this->description = $description;
         return $this;
-    }
-
-    /**
-     * @return HasOne
-     */
-    public function category(): HasOne
-    {
-        return $this->hasOne(Category::class, 'id', 'category_id');
     }
 
     /**

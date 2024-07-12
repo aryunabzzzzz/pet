@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Data\DTO\Food\StoreFoodDTO;
+use App\Data\DTO\Food\GetFoodDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreFoodRequest extends FormRequest
+class GetFoodRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -18,15 +18,16 @@ class StoreFoodRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
         return [
-            'name'=>'required|string',
-            'categoryId'=>'required|exists:categories,id',
-            'price'=>'required|numeric',
-            'description'=>'string'
+            'name'=>'string',
+            'categoryId'=>'exists:categories,id',
+            'price'=>'numeric',
+            'minPrice'=>'numeric',
+            'maxPrice'=>'numeric'
         ];
     }
 
@@ -36,55 +37,62 @@ class StoreFoodRequest extends FormRequest
     public function messages(): array
     {
         return [
-            '*.required'=>'Поле :attribute обязательное',
             '*.string'=>'Поле :attribute должно быть строкой',
             '*.numeric'=>'Поле :attribute должно быть числом',
         ];
     }
 
-
     /**
-     * @return string
+     * @return string|null
      */
-    private function getName(): string
+    private function getName(): string|null
     {
         return $this->input('name');
     }
 
     /**
-     * @return int
+     * @return int|null
      */
-    private function getCategoryId(): int
+    private function getCategoryId(): int|null
     {
         return $this->input('categoryId');
     }
 
     /**
-     * @return float
+     * @return float|null
      */
-    private function getPrice(): float
+    private function getPrice(): float|null
     {
         return $this->input('price');
     }
 
     /**
-     * @return string|null
+     * @return float|null
      */
-    private function getDescription(): string|null
+    private function getMinPrice(): float|null
     {
-        return $this->input('description');
+        return $this->input('minPrice');
     }
 
     /**
-     * @return StoreFoodDTO
+     * @return float|null
      */
-    public function storeFoodDTO(): StoreFoodDTO
+    private function getMaxPrice(): float|null
     {
-        return new StoreFoodDTO(
+        return $this->input('maxPrice');
+    }
+
+    /**
+     * @return GetFoodDTO
+     */
+    public function getFoodDTO(): GetFoodDTO
+    {
+        return new GetFoodDTO(
             $this->getName(),
             $this->getCategoryId(),
             $this->getPrice(),
-            $this->getDescription()
+            $this->getMinPrice(),
+            $this->getMaxPrice()
         );
     }
 }

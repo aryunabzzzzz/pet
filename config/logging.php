@@ -53,8 +53,15 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['daily_order', 'daily'],
             'ignore_exceptions' => false,
+        ],
+
+        'daily_order' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/laravel-order.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => 14,
         ],
 
         'single' => [

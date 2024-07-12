@@ -2,21 +2,37 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
+use App\Models\Food;
+use App\Models\Image;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        Category::create(['name'=>'salad']);
+        Category::create(['name'=>'pizza']);
+        Category::create(['name'=>'dessert']);
+        Category::create(['name'=>'drink']);
+        Category::create(['name'=>'soup']);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        Role::create(['name' => 'admin']);
+        Role::create(['name' => 'customer']);
+
+        User::factory()
+            ->count(10)
+            ->create();
+
+        Food::factory()->count(10)->create()->each(function ($food) {
+            $image = Image::factory()->make();
+            $food->image()->save($image);
+        });
+
     }
 }

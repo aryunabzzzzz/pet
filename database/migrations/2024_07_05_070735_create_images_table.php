@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string('path');
+            $table->morphs('imageable'); //imageable_id и imageable_type
             $table->timestamps();
         });
     }
