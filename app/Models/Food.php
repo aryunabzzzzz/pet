@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
@@ -17,6 +19,8 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  *
  * @property-read Category|BelongsTo $category
  * @property-read Image|MorphOne $image
+ * @property-read Cart|BelongsToMany $cart
+ * @property-read Order|BelongsToMany $order
  */
 class Food extends Model
 {
@@ -133,5 +137,20 @@ class Food extends Model
         return $this->morphOne(Image::class, 'imageable');
     }
 
+    /**
+     * @return BelongsToMany
+     */
+    public function carts(): BelongsToMany
+    {
+        return $this->belongsToMany(Cart::class);
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class);
+    }
 
 }
