@@ -210,6 +210,17 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasOne(Cart::class, 'customer_id');
     }
 
+    /**
+     * @return HasOne
+     *
+     * Пример связи один из многих
+     * Получить последний заказ
+     */
+    public function latestOrder(): HasOne
+    {
+        return $this->hasOne(Order::class, 'customer_id')->latestOfMany();
+    }
+
 
     /**
      * @return mixed
