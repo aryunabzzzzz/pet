@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * @property float $price
  * @property string|null $description
  *
- * @property-read Category|HasOne $category
+ * @property-read Category|BelongsTo $category
  * @property-read Image|MorphOne $image
  */
 class Food extends Model
@@ -117,11 +118,11 @@ class Food extends Model
     }
 
     /**
-     * @return HasOne
+     * @return BelongsTo
      */
-    public function category(): HasOne
+    public function category(): BelongsTo
     {
-        return $this->hasOne(Category::class, 'id', 'category_id');
+        return $this->belongsTo(Category::class);
     }
 
     /**
