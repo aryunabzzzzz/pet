@@ -15,14 +15,20 @@ class FoodController extends Controller
     {
     }
 
-    /**
-     * @return AnonymousResourceCollection
-     *
-     * Показывает все продукты(есть фильтрация)
-     */
-    public function index(GetFoodRequest $request): AnonymousResourceCollection
+//    /**
+//     * @return AnonymousResourceCollection
+//     *
+//     * Показывает все продукты(есть фильтрация)
+//     */
+//    public function index(GetFoodRequest $request): AnonymousResourceCollection
+//    {
+//        $foods = $this->foodService->index($request->getFoodDTO());
+//        return FoodResource::collection($foods);
+//    }
+
+    public function index(): AnonymousResourceCollection
     {
-        $foods = $this->foodService->index($request->getFoodDTO());
+        $foods = $this->foodService->getAll();
         return FoodResource::collection($foods);
     }
 

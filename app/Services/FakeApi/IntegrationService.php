@@ -4,14 +4,21 @@ namespace App\Services\FakeApi;
 
 use App\Models\Food;
 use App\Models\Image;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class IntegrationService
 {
     public function getAllProducts()
     {
-        $response = Http::get('https://668ea04dbf9912d4c92f1d93.mockapi.io/api/v1/foods');
-        return $response->json();
+        $key = 'fake_api_products';
+        $ttl = 600;
+        $products = Cache::get($key);
+        if($products == null){
+            $products = Http::get('https://668ea04dbf9912d4c92f1d93.mockapi.io/api/v1/foods');
+            Cache::put($key, $products->json(), $ttl);
+        }
+        return $products;
     }
 
     public function getIntoFoodsAvailableProducts(): bool
@@ -33,6 +40,7 @@ class IntegrationService
             }
         }
 
+        $this->updateFoodCache();
         return true;
     }
 
@@ -58,5 +66,16 @@ class IntegrationService
                 $food->delete();
             }
         }
+
+        $this->updateFoodCache();
+    }
+
+    protected function updateFoodCache(): void
+    {
+        $key = 'foods_list';
+        $ttl = 600;
+
+        $foods = Food::all();
+        Cache::put($key, $foods, $ttl);
     }
 }
