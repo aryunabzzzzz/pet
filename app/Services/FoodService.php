@@ -11,6 +11,7 @@ use App\Services\Filters\Food\NameFilter;
 use App\Services\Filters\Food\PriceFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Cache;
 
 class FoodService
 {
@@ -18,6 +19,20 @@ class FoodService
     {
         $query = Food::query()->with('image');
         return $this->getQuery($query, $DTO->toArray())->get();
+    }
+
+    public function getAll(): Collection
+    {
+        $key = 'foods_list';
+        $ttl = 600;
+
+        $foods = Cache::get($key);
+        if ($foods == null) {
+            $foods = Cache::remember($key, $ttl, function () {
+                return Food::all();
+            });
+        }
+        return $foods;
     }
 
     public function show(int $id): Collection

@@ -39,3 +39,9 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
       - ./volumes/mysql:/var/lib/mysql
+
+  redis:
+    image: redis:7.2-rc-alpine3.18
+    restart: always
+    ports:
+        - ${REDIS_PORT}:6379
