@@ -18,3 +18,5 @@ yarn-error.log
 /.vscode
 /volumes/mysql
 composer.lock
+.phpunit.result.cache
+phpunit.xml.bak
