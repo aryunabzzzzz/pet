@@ -25,6 +25,12 @@ RUN apt-get update \
     exif \
     opcache \
     sockets \
+    && pecl install \
+    redis \
+    xdebug \
+    && docker-php-ext-enable \
+    redis \
+    xdebug \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
