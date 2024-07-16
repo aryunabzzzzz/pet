@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Data\DTO\Order\CreateOrderDTO;
+use App\Events\OrderCreated;
 use App\Exceptions\CreateOrderException;
 use App\Http\Controllers\MailController;
 use App\Models\Order;
@@ -42,12 +43,11 @@ class OrderService
             $price = $food->price * $food->pivot->quantity;
             $order->foods()->attach($food->id, ['quantity' => $food->pivot->quantity, 'price' => $price]);
         }
-        //отправка письма на почту
-        $mail = new MailController();
-        $mail->send($user->getEmail(), $user->getName());
+
+        //отправка письма на почту через событие
+        event(new OrderCreated($order));
 
         //добавить удаление(очищение) корзины
-        Log::channel('daily_order')->info("Пользователь {$user->getName()} успешно создал заказ");
         return Order::with('foods')->where('id',$order->id)->get();
     }
 
