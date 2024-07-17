@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $customer_id
  *
  * @property-read User|BelongsTo $user
+ * @property-read Food|BelongsToMany $food
  */
 
 class Cart extends Model

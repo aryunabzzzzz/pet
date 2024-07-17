@@ -26,17 +26,18 @@ class IntegrationService
         $products = $this->getAllProducts();
 
         foreach ($products as $product) {
-            if($product['available']){
-                if(Food::where('name', $product['name'])->where('price', $product['price'])->doesntExist()){
-                    $food = Food::create([
-                        'name' => $product['name'],
-                        'category_id'=>6,
-                        'price' => $product['price']
-                    ]);
-                    $image = new Image();
-                    $image->setPath($product['image']);
-                    $food->image()->save($image);
-                }
+
+            $duplicateFood = Food::where('name', $product['name'])->where('price', $product['price']);
+
+            if($product['available'] && $duplicateFood->doesntExist()){
+                $food = Food::create([
+                    'name' => $product['name'],
+                    'category_id'=>6,
+                    'price' => $product['price']
+                ]);
+                $image = new Image();
+                $image->setPath($product['image']);
+                $food->image()->save($image);
             }
         }
 
@@ -47,18 +48,13 @@ class IntegrationService
     public function checkActualityAndAvailability(): void
     {
         $products = $this->getAllProducts();
-
         $foods = Food::all();
 
         foreach ($foods as $food) {
             $flag = false;
             foreach ($products as $product) {
-                if($food->getName() == $product['name']){
+                if($food->getName() == $product['name'] && $product['available']){
                     $flag = true;
-                    if(!$product['available']){
-                        $food->image()->delete();
-                        $food->delete();
-                    }
                 }
             }
             if(!$flag){

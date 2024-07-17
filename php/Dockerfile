@@ -1,30 +1,13 @@
 FROM php:8.3-fpm
 
-# Install dependencies
-RUN apt-get update \
-    && apt-get install -y \
-    iputils-ping \
+# Устанавливаем необходимые пакеты и утилиты
+RUN apt-get update && apt-get install -y \
     git \
-    cron \
-    zlib1g-dev \
-    libzip-dev \
-    procps \
-    supervisor \
-    iputils-ping \
-    libfreetype6-dev libjpeg62-turbo-dev libpng-dev \
-    libc-client-dev libkrb5-dev \
-    && docker-php-ext-configure gd \
-    && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install \
     zip \
-    pdo \
-    pdo_mysql \
-    mysqli \
-    calendar \
-    bcmath \
-    exif \
-    opcache \
-    sockets \
+    unzip \
+    cron \
+    supervisor \
+    libpq-dev \
     && pecl install \
     redis \
     xdebug \
@@ -34,10 +17,30 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Composer
+# Устанавливаем Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Создаем пользователя и группу
-RUN groupadd -g 1000 www
-RUN useradd -u 1000 -ms /bin/bash -g www www
-USER www
+# Устанавливаем расширение PDO для работы с MySQL
+RUN docker-php-ext-install pdo pdo_mysql
+
+RUN mkdir -p /var/log/supervisor
+RUN mkdir -p /var/log/php-fpm
+COPY supervisor/* /etc/supervisor/conf.d/
+
+# Add crontab file in the cron directory
+ADD crontab /etc/cron.d/hello-cron
+
+# Give execution rights on the cron job
+RUN chmod 0644 /etc/cron.d/hello-cron
+
+# Apply cron job
+RUN crontab /etc/cron.d/hello-cron
+
+# Create the log file to be able to run tail
+RUN touch /var/log/cron.log
+
+EXPOSE 9000
+
+WORKDIR /var/www/html
+
+CMD /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
