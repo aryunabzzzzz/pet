@@ -3,8 +3,10 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FoodController;
+use App\Http\Controllers\FoodExportController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UploadsController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -53,4 +55,8 @@ Route::controller(OrderController::class)->group(function () {
     Route::post('orders', 'store');
     Route::delete('orders/{id}', 'destroy');
 });
+
+Route::get('uploads', [UploadsController::class, 'index']);
+Route::get('export', [FoodExportController::class, 'export']);
+//Route::get('get', [FoodExportController::class, 'getAll']);
 
