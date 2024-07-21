@@ -39,10 +39,10 @@ abstract class ExportService
      */
     public function export(Collection $foods): void
     {
-        $spreadsheet = $this->create($foods);
+        $spreadsheet = $this->createDocument($foods);
         $date = date('d-m-Y');
         $fileType = $this->createFileType();
-        $fileName = "12foods.{$date}.{$fileType}";
+        $fileName = "foods.{$date}.{$fileType}";
 
         $this->saveAs($spreadsheet, $fileName);
     }
@@ -51,10 +51,21 @@ abstract class ExportService
      * @param Collection $foods
      * @return Spreadsheet
      */
-    public function create(Collection $foods): Spreadsheet
+    public function createDocument(Collection $foods): Spreadsheet
     {
         $sheet = $this->spreadsheet->getActiveSheet();
+        $sheet = $this->setHeader($sheet);
+        $sheet = $this->setValues($sheet, $foods);
 
+        return $this->spreadsheet;
+    }
+
+    /**
+     * @param $sheet
+     * @return mixed
+     */
+    public function setHeader($sheet): mixed
+    {
         $sheet->mergeCells('A1:F1');
         $sheet->setCellValue('A1', 'Список актуальных товаров');
 
@@ -65,9 +76,17 @@ abstract class ExportService
         $sheet->setCellValue('E2', 'PRICE');
         $sheet->setCellValue('F2', 'DESCRIPTION');
 
+        return $sheet;
+    }
 
+    /**
+     * @param $sheet
+     * @param Collection $foods
+     * @return mixed
+     */
+    public function setValues($sheet, Collection $foods): mixed
+    {
         $currentRow = $sheet->getHighestRow() + 1;
-
         for ($i = 1; $i <= count($foods); $i++) {
             $sheet->setCellValue('A' . $currentRow, $i);
             $sheet->setCellValue('B' . $currentRow, $foods[$i-1]->getId());
@@ -79,7 +98,7 @@ abstract class ExportService
             $currentRow++;
         }
 
-        return $this->spreadsheet;
+        return $sheet;
     }
 
     /**
