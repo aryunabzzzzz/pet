@@ -8,6 +8,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class CartResource extends JsonResource
 {
     /**
+     * @var
+     */
+    public $resource;
+
+    /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>

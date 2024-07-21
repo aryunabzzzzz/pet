@@ -23,5 +23,4 @@ class PdfExportService extends ExportService
     {
         return new Mpdf($spreadsheet);
     }
-
 }

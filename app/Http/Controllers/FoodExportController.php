@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Services\FoodExport\ExportService;
 use App\Services\FoodService;
-use Illuminate\Support\Facades\Storage;
 
 class FoodExportController extends Controller
 {
+    /**
+     * @param ExportService $exportService
+     * @param FoodService $foodService
+     */
     public function __construct(public ExportService $exportService, public FoodService  $foodService)
     {
     }

@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Events\OrderCreated;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Mail;
 
 class SendOrderMail

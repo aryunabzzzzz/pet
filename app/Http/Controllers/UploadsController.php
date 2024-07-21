@@ -8,6 +8,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class UploadsController extends Controller
 {
+    /**
+     * @param UploadService $uploadService
+     */
     public function __construct(public UploadService $uploadService)
     {
     }
@@ -21,6 +24,11 @@ class UploadsController extends Controller
         return UploadResource::collection($uploads);
     }
 
+    /**
+     * @param string $path
+     * @param string $name
+     * @return UploadResource
+     */
     public function store(string $path, string $name): UploadResource
     {
         $upload = $this->uploadService->create($path, $name);

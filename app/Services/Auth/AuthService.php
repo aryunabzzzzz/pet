@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
+    /**
+     * @param string $email
+     * @param string $password
+     * @return JsonResponse
+     */
     public function login(string $email, string $password): JsonResponse
     {
         if (! $token = auth()->attempt([
@@ -22,6 +27,10 @@ class AuthService
         return $this->respondWithToken($token);
     }
 
+    /**
+     * @param $token
+     * @return JsonResponse
+     */
     private function respondWithToken($token): JsonResponse
     {
         return response()->json([
@@ -31,6 +40,10 @@ class AuthService
         ]);
     }
 
+    /**
+     * @param RegisterUserDTO $DTO
+     * @return JsonResponse
+     */
     public function register(RegisterUserDTO $DTO): JsonResponse
     {
         $user = User::create([
@@ -47,17 +60,20 @@ class AuthService
 
     }
 
+    /**
+     * @return bool
+     */
     public function logout(): bool
     {
         auth()->logout();
         return true;
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function refresh(): JsonResponse
     {
         return $this->respondWithToken(auth()->refresh());
     }
-
-
-
 }

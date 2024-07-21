@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 class CategoryIdFilter implements FilterInterface
 {
+    /**
+     * @param Builder $query
+     * @param array $params
+     * @return Builder
+     */
     public static function modify(Builder $query, array $params): Builder
     {
         if (empty($params['categoryId'])) {
@@ -15,5 +20,4 @@ class CategoryIdFilter implements FilterInterface
 
         return $query->where('category_id', $params['categoryId']);
     }
-
 }

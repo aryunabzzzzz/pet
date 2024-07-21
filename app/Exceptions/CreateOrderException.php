@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Log;
 
 class CreateOrderException extends Exception
 {
+    /**
+     * @param $message
+     * @param $code
+     */
     public function __construct($message = "Ошибка при создании заказа", $code = 0)
     {
         parent::__construct($message, $code);
@@ -32,5 +36,4 @@ class CreateOrderException extends Exception
             'code' => $this->code,
         ]);
     }
-
 }

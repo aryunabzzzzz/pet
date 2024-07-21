@@ -76,7 +76,7 @@ class StoreUserRequest extends FormRequest
     /**
      * @return string|null
      */
-    private function getBirthday(): string|null
+    private function getBirthday(): ?string
     {
         return $this->input('birthday');
     }

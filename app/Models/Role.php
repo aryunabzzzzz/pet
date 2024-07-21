@@ -12,12 +12,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property-read User|HasMany $user
  */
+
 class Role extends Model
 {
     use HasFactory;
 
+    /**
+     * @var bool
+     */
     public $timestamps = true;
 
+    /**
+     * @var string
+     */
     protected $table = 'roles';
 
     /**
@@ -54,9 +61,11 @@ class Role extends Model
         return $this;
     }
 
+    /**
+     * @return HasMany
+     */
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
     }
-
 }

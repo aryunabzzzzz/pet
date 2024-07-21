@@ -7,7 +7,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
 {
+    /**
+     * @var
+     */
     public $resource;
+
     /**
      * Transform the resource into an array.
      *

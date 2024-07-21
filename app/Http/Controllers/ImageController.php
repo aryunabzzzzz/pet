@@ -9,6 +9,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ImageController extends Controller
 {
+    /**
+     * @param ImageService $imageService
+     */
     public function __construct(public ImageService $imageService)
     {
     }

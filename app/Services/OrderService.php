@@ -13,16 +13,28 @@ use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
+    /**
+     * @return Collection
+     */
     public function getAll(): Collection
     {
         return Order::all();
     }
 
+    /**
+     * @param int $id
+     * @return Collection
+     */
     public function getById(int $id): Collection
     {
         return Order::with('foods')->where('id', $id)->get();
     }
 
+    /**
+     * @param CreateOrderDTO $DTO
+     * @return Collection|JsonResponse
+     * @throws CreateOrderException
+     */
     public function create(CreateOrderDTO $DTO): Collection|JsonResponse
     {
         $order = Order::create($DTO->toArray());
@@ -33,7 +45,13 @@ class OrderService
         return Order::with('foods')->where('id',$order->id)->get();
     }
 
-    public function addFoodsIntoOrder(int $userId, int $orderId)
+    /**
+     * @param int $userId
+     * @param int $orderId
+     * @return void
+     * @throws CreateOrderException
+     */
+    public function addFoodsIntoOrder(int $userId, int $orderId): void
     {
         $user = User::find($userId);
         //получение корзины пользователя
@@ -54,6 +72,10 @@ class OrderService
         }
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     */
     public function delete(int $id): bool
     {
         $order = Order::find($id);

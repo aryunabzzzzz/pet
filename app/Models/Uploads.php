@@ -11,12 +11,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $filePath
  *
  */
+
 class Uploads extends Model
 {
     use HasFactory;
 
+    /**
+     * @var bool
+     */
     public $timestamps = true;
 
+    /**
+     * @var string
+     */
     protected $table = 'uploads';
 
     /**
@@ -71,6 +78,4 @@ class Uploads extends Model
         $this->filePath = $filePath;
         return $this;
     }
-
-
 }
