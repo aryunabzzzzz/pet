@@ -16,12 +16,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property-read User|BelongsTo $user
  * @property-read Food|BelongsToMany $food
  */
+
 class Order extends Model
 {
     use HasFactory;
 
+    /**
+     * @var bool
+     */
     public $timestamps = true;
 
+    /**
+     * @var string
+     */
     protected $table = 'orders';
 
     /**
@@ -81,7 +88,7 @@ class Order extends Model
     /**
      * @return string|null
      */
-    public function getComment(): string|null
+    public function getComment(): ?string
     {
         return $this->comment;
     }

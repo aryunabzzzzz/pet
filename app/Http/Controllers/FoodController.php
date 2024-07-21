@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GetFoodRequest;
 use App\Http\Requests\StoreFoodRequest;
 use App\Http\Resources\FoodResource;
 use App\Http\Resources\JustBoolResource;
@@ -11,6 +10,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class FoodController extends Controller
 {
+    /**
+     * @param FoodService $foodService
+     */
     public function __construct(public FoodService  $foodService)
     {
     }
@@ -26,6 +28,9 @@ class FoodController extends Controller
 //        return FoodResource::collection($foods);
 //    }
 
+    /**
+     * @return AnonymousResourceCollection
+     */
     public function index(): AnonymousResourceCollection
     {
         $foods = $this->foodService->getAll();

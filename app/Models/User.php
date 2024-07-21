@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -24,12 +23,19 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property-read Order|HasMany $order
  * @property-read Cart|HasOne $cart
  */
+
 class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
+    /**
+     * @var bool
+     */
     public $timestamps = true;
 
+    /**
+     * @var string
+     */
     protected $table = 'users';
 
     /**
@@ -220,7 +226,6 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Order::class, 'customer_id')->latestOfMany();
     }
-
 
     /**
      * @return mixed

@@ -4,12 +4,16 @@ namespace App\Services\FakeApi;
 
 use App\Models\Food;
 use App\Models\Image;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 class IntegrationService
 {
-    public function getAllProducts()
+    /**
+     * @return Response
+     */
+    public function getAllProducts(): Response
     {
         $key = 'fake_api_products';
         $ttl = 600;
@@ -21,6 +25,9 @@ class IntegrationService
         return $products;
     }
 
+    /**
+     * @return bool
+     */
     public function getIntoFoodsAvailableProducts(): bool
     {
         $products = $this->getAllProducts();
@@ -32,7 +39,7 @@ class IntegrationService
             if($product['available'] && $duplicateFood->doesntExist()){
                 $food = Food::create([
                     'name' => $product['name'],
-                    'category_id'=>6,
+                    'category_id' => 6,
                     'price' => $product['price']
                 ]);
                 $image = new Image();
@@ -45,6 +52,9 @@ class IntegrationService
         return true;
     }
 
+    /**
+     * @return void
+     */
     public function checkActualityAndAvailability(): void
     {
         $products = $this->getAllProducts();
@@ -57,7 +67,7 @@ class IntegrationService
                     $flag = true;
                 }
             }
-            if(!$flag){
+            if(! $flag){
                 $food->image()->delete();
                 $food->delete();
             }
@@ -66,6 +76,9 @@ class IntegrationService
         $this->updateFoodCache();
     }
 
+    /**
+     * @return void
+     */
     protected function updateFoodCache(): void
     {
         $key = 'foods_list';

@@ -11,6 +11,9 @@ use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
+    /**
+     * @param AuthService $loginService
+     */
     public function __construct(public AuthService $loginService)
     {
     }
@@ -49,5 +52,4 @@ class AuthController extends Controller
     {
         return $this->loginService->refresh();
     }
-
 }

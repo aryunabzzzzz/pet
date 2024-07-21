@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**
@@ -22,12 +20,19 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * @property-read Cart|BelongsToMany $cart
  * @property-read Order|BelongsToMany $order
  */
+
 class Food extends Model
 {
     use HasFactory;
 
+    /**
+     * @var bool
+     */
     public $timestamps = true;
 
+    /**
+     * @var string
+     */
     protected $table = 'foods';
 
     /**
@@ -106,7 +111,7 @@ class Food extends Model
     /**
      * @return string|null
      */
-    public function getDescription(): string|null
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -152,5 +157,4 @@ class Food extends Model
     {
         return $this->belongsToMany(Order::class);
     }
-
 }

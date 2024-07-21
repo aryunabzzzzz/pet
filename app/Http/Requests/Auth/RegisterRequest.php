@@ -79,7 +79,7 @@ class RegisterRequest extends FormRequest
     /**
      * @return string|null
      */
-    public function getBirthday(): string|null
+    public function getBirthday(): ?string
     {
         return $this->get('birthday');
     }

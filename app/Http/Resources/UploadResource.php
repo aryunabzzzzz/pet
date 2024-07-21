@@ -7,7 +7,11 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UploadResource extends JsonResource
 {
+    /**
+     * @var
+     */
     public $resource;
+
     /**
      * Transform the resource into an array.
      *

@@ -12,12 +12,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  *
  * @property-read Food|HasMany $food
  */
+
 class Category extends Model
 {
     use HasFactory;
 
+    /**
+     * @var bool
+     */
     public $timestamps = true;
 
+    /**
+     * @var string
+     */
     protected $table = 'categories';
 
     /**
@@ -61,5 +68,4 @@ class Category extends Model
     {
         return $this->hasMany(Food::class);
     }
-
 }

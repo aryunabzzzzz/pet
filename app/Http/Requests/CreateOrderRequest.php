@@ -59,7 +59,7 @@ class CreateOrderRequest extends FormRequest
     /**
      * @return string|null
      */
-    public function getComment(): string|null
+    public function getComment(): ?string
     {
         return $this->input('comment');
     }

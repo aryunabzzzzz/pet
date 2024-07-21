@@ -11,6 +11,7 @@ class JustBoolResource extends JsonResource
      * @var bool $resource
      */
     public $resource;
+
     /**
      * Transform the resource into an array.
      *

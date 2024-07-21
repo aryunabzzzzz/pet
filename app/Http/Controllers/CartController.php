@@ -11,6 +11,9 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class CartController extends Controller
 {
+    /**
+     * @param CartService $cartService
+     */
     public function __construct(public CartService $cartService)
     {
     }
@@ -28,7 +31,7 @@ class CartController extends Controller
      * @param int $customerId
      * @return AnonymousResourceCollection
      */
-    public function show(int $customerId)
+    public function show(int $customerId): AnonymousResourceCollection
     {
         $cart = $this->cartService->getByUserId($customerId);
         return CartResource::collection($cart);

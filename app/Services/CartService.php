@@ -7,16 +7,27 @@ use Illuminate\Database\Eloquent\Collection;
 
 class CartService
 {
+    /**
+     * @return Collection
+     */
     public function getAll(): Collection
     {
         return Cart::all();
     }
 
+    /**
+     * @param int $customerId
+     * @return Collection
+     */
     public function getByUserId(int $customerId): Collection
     {
         return Cart::with('foods')->where('customer_id', $customerId)->get();
     }
 
+    /**
+     * @param int $customerId
+     * @return Cart
+     */
     public function create(int $customerId): Cart
     {
         $cart = Cart::where('customer_id', $customerId)->first();
@@ -26,7 +37,13 @@ class CartService
         return $cart;
     }
 
-    public function addFood(int $foodId, int $quantity, int $customerId)
+    /**
+     * @param int $foodId
+     * @param int $quantity
+     * @param int $customerId
+     * @return bool
+     */
+    public function addFood(int $foodId, int $quantity, int $customerId): bool
     {
         $cart = Cart::where('customer_id', $customerId)->first();
         $cart->foods()->attach($foodId, ['quantity' => $quantity]);
@@ -34,7 +51,11 @@ class CartService
         return true;
     }
 
-    public function delete(int $customerId)
+    /**
+     * @param int $customerId
+     * @return bool
+     */
+    public function delete(int $customerId): bool
     {
         $cart = Cart::where('customer_id', $customerId)->first();
         $cart->foods()->detach();
@@ -42,5 +63,4 @@ class CartService
 
         return true;
     }
-
 }

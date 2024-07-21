@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Builder;
 
 class MinPriceFilter implements FilterInterface
 {
+    /**
+     * @param Builder $query
+     * @param array $params
+     * @return Builder
+     */
     public static function modify(Builder $query, array $params): Builder
     {
         if (empty($params['minPrice'])) {

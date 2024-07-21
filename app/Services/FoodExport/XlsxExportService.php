@@ -23,6 +23,4 @@ class XlsxExportService extends ExportService
     {
         return new Xlsx($spreadsheet);
     }
-
-
 }

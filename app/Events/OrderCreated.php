@@ -11,7 +11,11 @@ class OrderCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    /**
+     * @var Order
+     */
     public Order $order;
+
     /**
      * Create a new event instance.
      */
