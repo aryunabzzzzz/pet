@@ -46,7 +46,20 @@ class AuthService
      */
     public function register(RegisterUserDTO $DTO): JsonResponse
     {
-        $user = User::create([
+        $user = $this->create($DTO);
+        $token = auth()->login($user);
+
+        return $this->respondWithToken($token);
+
+    }
+
+    /**
+     * @param RegisterUserDTO $DTO
+     * @return User
+     */
+    public function create(RegisterUserDTO $DTO): User
+    {
+        return User::create([
             'role_id' => $DTO->roleId,
             'name' => $DTO->name,
             'phone' => $DTO->phone,
@@ -54,10 +67,6 @@ class AuthService
             'birthday' => $DTO->birthday,
             'password' => Hash::make($DTO->password),
         ]);
-        $token = auth()->login($user);
-
-        return $this->respondWithToken($token);
-
     }
 
     /**

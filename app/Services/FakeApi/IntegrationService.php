@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * тут супер ужасный класс
+ */
+
 namespace App\Services\FakeApi;
 
 use App\Models\Food;
@@ -37,19 +41,28 @@ class IntegrationService
             $duplicateFood = Food::where('name', $product['name'])->where('price', $product['price']);
 
             if($product['available'] && $duplicateFood->doesntExist()){
-                $food = Food::create([
-                    'name' => $product['name'],
-                    'category_id' => 6,
-                    'price' => $product['price']
-                ]);
-                $image = new Image();
-                $image->setPath($product['image']);
-                $food->image()->save($image);
+                $this->insertIntoFood($product);
             }
         }
 
         $this->updateFoodCache();
         return true;
+    }
+
+    /**
+     * @param array $product
+     * @return void
+     */
+    public function insertIntoFood(array $product): void
+    {
+        $food = Food::create([
+            'name' => $product['name'],
+            'category_id' => 6,
+            'price' => $product['price']
+        ]);
+        $image = new Image();
+        $image->setPath($product['image']);
+        $food->image()->save($image);
     }
 
     /**
