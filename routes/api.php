@@ -7,7 +7,7 @@ use App\Http\Controllers\FoodExportController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UploadsController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,11 +24,11 @@ Route::controller(FoodController::class)->group(function () {
     Route::delete('foods/{id}', 'destroy');
 });
 
-Route::get('users', [UserController::class, 'index']);
-Route::get('users/{id}', [UserController::class, 'show']);
-Route::post('users', [UserController::class, 'store']);
-Route::patch('users/{id}', [UserController::class, 'update']);
-Route::delete('users/{id}', [UserController::class, 'destroy']);
+Route::get('users', [CustomerController::class, 'index']);
+Route::get('users/{id}', [CustomerController::class, 'show']);
+Route::post('users', [CustomerController::class, 'store']);
+Route::patch('users/{id}', [CustomerController::class, 'update']);
+Route::delete('users/{id}', [CustomerController::class, 'destroy']);
 
 Route::middleware('auth:api')->controller(CartController::class)->group(function () {
     Route::get('carts','index');

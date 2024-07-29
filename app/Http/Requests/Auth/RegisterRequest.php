@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
-use App\Data\DTO\Auth\RegisterUserDTO;
+use App\Data\DTO\Auth\RegisterCustomerDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
@@ -23,7 +23,6 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'roleId' => 'required|exists:roles,id',
             'name' => 'required|regex:/[a-zA-Z]{3,}/|string',
             'phone' => 'required|regex:/\+?\d?[ .]?[ .\-(]?\d{3}[ .\-)]?[ .]?\d{3}[ .\-]?\d{2}[ .\-]?\d{2}/|string',
             'email' => 'required|string|regex:/\w+?.?\w+@\w+.\w{2,5}/|unique:users,email',
@@ -42,14 +41,6 @@ class RegisterRequest extends FormRequest
             '*.string'=>'Поле :attribute должно быть строкой',
             '*.date'=>'Поле :attribute должно быть датой'
         ];
-    }
-
-    /**
-     * @return int
-     */
-    public function getRoleId(): int
-    {
-        return $this->get('roleId');
     }
 
     /**
@@ -93,12 +84,11 @@ class RegisterRequest extends FormRequest
     }
 
     /**
-     * @return RegisterUserDTO
+     * @return RegisterCustomerDTO
      */
-    public function registerUserDTO(): RegisterUserDTO
+    public function registerUserDTO(): RegisterCustomerDTO
     {
-        return new RegisterUserDTO(
-            $this->getRoleId(),
+        return new RegisterCustomerDTO(
             $this->getName(),
             $this->getPhone(),
             $this->getEmail(),

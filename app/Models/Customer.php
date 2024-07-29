@@ -12,19 +12,17 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * @property int $id
- * @property int $role_id
  * @property string $name
  * @property string $phone
  * @property string $email
  * @property string $birthday
  * @property string $password
  *
- * @property-read Role|BelongsTo $role
  * @property-read Order|HasMany $order
  * @property-read Cart|HasOne $cart
  */
 
-class User extends Authenticatable implements JWTSubject
+class Customer extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
 
@@ -45,7 +43,6 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $fillable = [
         'id',
-        'role_id',
         'name',
         'phone',
         'email',
@@ -85,24 +82,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * @return int
-     */
-    public function getRoleId(): int
-    {
-        return $this->role_id;
-    }
-
-    /**
-     * @param int $role_id
-     * @return User
-     */
-    public function setRoleId(int $role_id): self
-    {
-        $this->role_id = $role_id;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getName(): string
@@ -112,7 +91,7 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * @param string $name
-     * @return User
+     * @return Customer
      */
     public function setName(string $name): self
     {
@@ -130,7 +109,7 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * @param string $phone
-     * @return User
+     * @return Customer
      */
     public function setPhone(string $phone): self
     {
@@ -148,7 +127,7 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * @param string $email
-     * @return User
+     * @return Customer
      */
     public function setEmail(string $email): self
     {
@@ -166,7 +145,7 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * @param string $birthday
-     * @return User
+     * @return Customer
      */
     public function setBirthday(string $birthday): self
     {
@@ -184,20 +163,12 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * @param string $password
-     * @return User
+     * @return Customer
      */
     public function setPassword(string $password): self
     {
         $this->password = $password;
         return $this;
-    }
-
-    /**
-     * @return BelongsTo
-     */
-    public function role(): BelongsTo
-    {
-        return $this->belongsTo(Role::class);
     }
 
     /**

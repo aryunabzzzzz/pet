@@ -6,7 +6,7 @@ use App\Data\DTO\Order\CreateOrderDTO;
 use App\Events\OrderCreated;
 use App\Exceptions\CreateOrderException;
 use App\Models\Order;
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -53,7 +53,7 @@ class OrderService
      */
     public function addFoodsIntoOrder(int $userId, int $orderId): void
     {
-        $user = User::find($userId);
+        $user = Customer::find($userId);
         //получение корзины пользователя
         $cart = $user->cart;
         if ($cart == null){

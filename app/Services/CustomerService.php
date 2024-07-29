@@ -2,13 +2,13 @@
 
 namespace App\Services;
 
-use App\Data\DTO\User\StoreUserDTO;
+use App\Data\DTO\Customer\StoreCustomerDTO;
 use App\Models\Cart;
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Cache;
 
-class UserService
+class CustomerService
 {
     /**
      * @return Collection
@@ -20,7 +20,7 @@ class UserService
         $users = Cache::get($key);
         if ($users == null){
             $users = Cache::remember($key, $ttl, function () {
-                return User::all();
+                return Customer::all();
             });
         }
         return $users;
@@ -28,30 +28,30 @@ class UserService
 
     /**
      * @param int $id
-     * @return User
+     * @return Customer
      */
-    public function show(int $id): User
+    public function show(int $id): Customer
     {
-        return User::find($id);
+        return Customer::find($id);
     }
 
     /**
-     * @param StoreUserDTO $DTO
-     * @return User
+     * @param StoreCustomerDTO $DTO
+     * @return Customer
      */
-    public function store(StoreUserDTO $DTO): User
+    public function store(StoreCustomerDTO $DTO): Customer
     {
-        return User::create($DTO->toArray());
+        return Customer::create($DTO->toArray());
     }
 
     /**
-     * @param StoreUserDTO $DTO
+     * @param StoreCustomerDTO $DTO
      * @param int $id
      * @return int
      */
-    public function update(StoreUserDTO $DTO, int $id): int
+    public function update(StoreCustomerDTO $DTO, int $id): int
     {
-        return User::where('id', $id)->update($DTO->toArray());
+        return Customer::where('id', $id)->update($DTO->toArray());
     }
 
     /**
@@ -60,7 +60,7 @@ class UserService
      */
     public function destroy(int $id): int
     {
-        return User::destroy($id);
+        return Customer::destroy($id);
     }
 
     /**
@@ -69,7 +69,7 @@ class UserService
      */
     public function getCart(int $userId): Cart
     {
-        $cart = User::find($userId)->cart;
+        $cart = Customer::find($userId)->cart;
         return $cart;
     }
 }

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Resources\UserResource;
-use App\Services\UserService;
+use App\Http\Requests\StoreCustomerRequest;
+use App\Http\Resources\CustomerResource;
+use App\Services\CustomerService;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class UserController extends Controller
+class CustomerController extends Controller
 {
     /**
-     * @param UserService $userService
+     * @param CustomerService $userService
      */
-    public function __construct(public UserService $userService)
+    public function __construct(public CustomerService $userService)
     {
     }
 
@@ -22,35 +22,35 @@ class UserController extends Controller
     public function index(): AnonymousResourceCollection
     {
         $users = $this->userService->index();
-        return UserResource::collection($users);
+        return CustomerResource::collection($users);
     }
 
     /**
      * @param int $id
-     * @return UserResource
+     * @return CustomerResource
      */
-    public function show(int $id): UserResource
+    public function show(int $id): CustomerResource
     {
         $user = $this->userService->show($id);
-        return new UserResource($user);
+        return new CustomerResource($user);
     }
 
     /**
-     * @param StoreUserRequest $request
-     * @return UserResource
+     * @param StoreCustomerRequest $request
+     * @return CustomerResource
      */
-    public function store(StoreUserRequest $request): UserResource
+    public function store(StoreCustomerRequest $request): CustomerResource
     {
         $user = $this->userService->store($request->storeUserDTO());
-        return new UserResource($user);
+        return new CustomerResource($user);
     }
 
     /**
-     * @param StoreUserRequest $request
+     * @param StoreCustomerRequest $request
      * @param int $id
      * @return int
      */
-    public function update(StoreUserRequest $request, int $id): int
+    public function update(StoreCustomerRequest $request, int $id): int
     {
         return $this->userService->update($request->storeUserDTO(), $id);
     }

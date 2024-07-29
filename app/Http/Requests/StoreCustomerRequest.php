@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Data\DTO\User\StoreUserDTO;
+use App\Data\DTO\Customer\StoreCustomerDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUserRequest extends FormRequest
+class StoreCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,6 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'roleId'=>'required|exists:roles,id',
             'name'=>'required|string',
             'phone'=>'required|string|unique:users,phone',
             'email'=>'required|string|email|unique:users,email',
@@ -39,14 +38,6 @@ class StoreUserRequest extends FormRequest
             '*.string'=>'Поле :attribute должно быть строкой',
             '*.date'=>'Поле :attribute должно быть датой',
         ];
-    }
-
-    /**
-     * @return int
-     */
-    private function getRoleId(): int
-    {
-        return $this->input('roleId');
     }
 
     /**
@@ -90,12 +81,11 @@ class StoreUserRequest extends FormRequest
     }
 
     /**
-     * @return StoreUserDTO
+     * @return StoreCustomerDTO
      */
-    public function storeUserDTO(): StoreUserDTO
+    public function storeUserDTO(): StoreCustomerDTO
     {
-        return new StoreUserDTO(
-        $this->getRoleId(),
+        return new StoreCustomerDTO(
         $this->getName(),
         $this->getPhone(),
         $this->getEmail(),

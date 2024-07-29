@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string $address
  * @property string|null $comment
  *
- * @property-read User|BelongsTo $user
+ * @property-read Customer|BelongsTo $user
  * @property-read Food|BelongsToMany $food
  */
 
@@ -108,7 +108,7 @@ class Order extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'customer_id');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 
     /**

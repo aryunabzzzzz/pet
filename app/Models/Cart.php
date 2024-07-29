@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property int $id
  * @property int $customer_id
  *
- * @property-read User|BelongsTo $user
+ * @property-read Customer|BelongsTo $user
  * @property-read Food|BelongsToMany $food
  */
 
@@ -68,7 +68,7 @@ class Cart extends Model
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'customer_id');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 
     /**
