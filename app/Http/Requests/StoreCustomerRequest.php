@@ -24,8 +24,8 @@ class StoreCustomerRequest extends FormRequest
     {
         return [
             'name'=>'required|string',
-            'phone'=>'required|string|unique:users,phone',
-            'email'=>'required|string|email|unique:users,email',
+            'phone'=>'required|string|unique:customers,phone',
+            'email'=>'required|string|email|unique:customers,email',
             'birthday'=>'nullable|date',
             'password'=>'required|string',
         ];
@@ -83,7 +83,7 @@ class StoreCustomerRequest extends FormRequest
     /**
      * @return StoreCustomerDTO
      */
-    public function storeUserDTO(): StoreCustomerDTO
+    public function storeCustomerDTO(): StoreCustomerDTO
     {
         return new StoreCustomerDTO(
         $this->getName(),

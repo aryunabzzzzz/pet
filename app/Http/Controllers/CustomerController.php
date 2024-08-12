@@ -41,7 +41,7 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request): CustomerResource
     {
-        $user = $this->userService->store($request->storeUserDTO());
+        $user = $this->userService->store($request->storeCustomerDTO());
         return new CustomerResource($user);
     }
 
@@ -52,7 +52,7 @@ class CustomerController extends Controller
      */
     public function update(StoreCustomerRequest $request, int $id): int
     {
-        return $this->userService->update($request->storeUserDTO(), $id);
+        return $this->userService->update($request->storeCustomerDTO(), $id);
     }
 
     /**

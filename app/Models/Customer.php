@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Orchid\Filters\Filterable;
+use Orchid\Screen\AsSource;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -24,7 +26,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class Customer extends Authenticatable implements JWTSubject
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, AsSource, Filterable;
 
     /**
      * @var bool
@@ -34,7 +36,7 @@ class Customer extends Authenticatable implements JWTSubject
     /**
      * @var string
      */
-    protected $table = 'users';
+    protected $table = 'customers';
 
     /**
      * The attributes that are mass assignable.
@@ -48,6 +50,13 @@ class Customer extends Authenticatable implements JWTSubject
         'email',
         'birthday',
         'password',
+    ];
+
+    /**
+     * @var array
+     */
+    protected $allowedSorts = [
+        'name'
     ];
 
     /**
@@ -136,9 +145,9 @@ class Customer extends Authenticatable implements JWTSubject
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getBirthday(): string
+    public function getBirthday(): ?string
     {
         return $this->birthday;
     }
