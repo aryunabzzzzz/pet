@@ -2,26 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ExportFood;
+use App\Models\ExportedFile;
 use App\Services\FoodExport\ExportService;
 use App\Services\FoodService;
 
 class FoodExportController extends Controller
 {
     /**
-     * @param ExportService $exportService
      * @param FoodService $foodService
      */
-    public function __construct(public ExportService $exportService, public FoodService  $foodService)
+    public function __construct(public FoodService  $foodService, public ExportService $exportService)
     {
     }
 
-    /**
-     * @return void
-     */
-    public function export(): void
+    public function export()
     {
         $foods = $this->foodService->getAll();
-        $this->exportService->export($foods);
+//        $this->exportService->export($foods);
+        ExportFood::dispatch($foods);
+
+        return redirect('/exportedFiles');
+    }
+
+    public function getFiles()
+    {
+        $files = ExportedFile::all();
+
+        return view('exportedFiles', ['files' => $files]);
     }
 
 //    public function getAll()
