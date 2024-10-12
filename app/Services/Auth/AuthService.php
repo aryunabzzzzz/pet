@@ -3,6 +3,7 @@
 namespace App\Services\Auth;
 
 use App\Data\DTO\Auth\RegisterCustomerDTO;
+use App\Jobs\SendEmail;
 use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Config;
@@ -49,6 +50,12 @@ class AuthService
         $user = $this->create($DTO);
         $token = auth()->login($user);
 
+        $data = [
+            'name' => $user->name,
+            'email' => $user->email,
+        ];
+        SendEmail::dispatch($data);
+
         return $this->respondWithToken($token);
 
     }
@@ -60,7 +67,6 @@ class AuthService
     public function create(RegisterCustomerDTO $DTO): Customer
     {
         return Customer::create([
-            'role_id' => $DTO->roleId,
             'name' => $DTO->name,
             'phone' => $DTO->phone,
             'email' => $DTO->email,
