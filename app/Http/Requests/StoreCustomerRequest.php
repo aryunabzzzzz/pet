@@ -34,9 +34,17 @@ class StoreCustomerRequest extends FormRequest
     public function messages(): array
     {
         return [
+            'name.required'=>'Нам нужно знать ваше имя',
             '*.required'=>'Поле :attribute обязательное',
             '*.string'=>'Поле :attribute должно быть строкой',
             '*.date'=>'Поле :attribute должно быть датой',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'email' => 'email address',
         ];
     }
 
