@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Data\DTO\User;
+namespace App\Data\DTO\Auth;
 
-class StoreUserDTO
+class RegisterCustomerDTO
 {
     /**
-     * @param int $roleId
      * @param string $name
      * @param string $phone
      * @param string $email
@@ -13,7 +12,6 @@ class StoreUserDTO
      * @param string $password
      */
     public function __construct(
-        public readonly int $roleId,
         public readonly string $name,
         public readonly string $phone,
         public readonly string $email,
@@ -29,7 +27,6 @@ class StoreUserDTO
     public function toArray(): array
     {
         return [
-            'role_id' => $this->roleId,
             'name' => $this->name,
             'phone' => $this->phone,
             'email' => $this->email,
