@@ -53,7 +53,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['daily_order', 'daily'],
+            'channels' => ['daily', 'daily_critical'],
             'ignore_exceptions' => false,
         ],
 
@@ -62,6 +62,13 @@ return [
             'path' => storage_path('logs/laravel-order.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => 14,
+        ],
+
+        'daily_critical' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/laravel-critical.log'),
+            'level' => 'critical',
+            'days' => 28,
         ],
 
         'single' => [

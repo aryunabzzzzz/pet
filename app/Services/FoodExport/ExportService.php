@@ -35,16 +35,16 @@ abstract class ExportService
 
     /**
      * @param Collection $foods
-     * @return void
+     * @return string
      */
-    public function export(Collection $foods): void
+    public function export(Collection $foods): string
     {
         $spreadsheet = $this->createDocument($foods);
         $date = date('d-m-Y');
         $fileType = $this->createFileType();
         $fileName = "foods.{$date}.{$fileType}";
 
-        $this->saveAs($spreadsheet, $fileName);
+        return $this->saveAs($spreadsheet, $fileName);
     }
 
     /**

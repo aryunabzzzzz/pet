@@ -23,7 +23,7 @@ class CreateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customerId' => 'required|exists:users,id',
+            'customerId' => 'required|exists:customers,id',
             'address' => 'required|string',
             'comment' => 'nullable|string',
         ];

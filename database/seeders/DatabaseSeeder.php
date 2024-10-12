@@ -5,8 +5,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Food;
 use App\Models\Image;
-use App\Models\Role;
-use App\Models\User;
+use App\Models\Customer;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,10 +21,7 @@ class DatabaseSeeder extends Seeder
         Category::create(['name'=>'drink']);
         Category::create(['name'=>'soup']);
 
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'customer']);
-
-        User::factory()
+        Customer::factory()
             ->count(10)
             ->create();
 

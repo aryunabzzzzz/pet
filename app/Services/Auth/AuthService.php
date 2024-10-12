@@ -2,8 +2,9 @@
 
 namespace App\Services\Auth;
 
-use App\Data\DTO\Auth\RegisterUserDTO;
-use App\Models\User;
+use App\Data\DTO\Auth\RegisterCustomerDTO;
+use App\Jobs\SendEmail;
+use App\Models\Customer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
@@ -41,26 +42,31 @@ class AuthService
     }
 
     /**
-     * @param RegisterUserDTO $DTO
+     * @param RegisterCustomerDTO $DTO
      * @return JsonResponse
      */
-    public function register(RegisterUserDTO $DTO): JsonResponse
+    public function register(RegisterCustomerDTO $DTO): JsonResponse
     {
         $user = $this->create($DTO);
         $token = auth()->login($user);
+
+        $data = [
+            'name' => $user->name,
+            'email' => $user->email,
+        ];
+        SendEmail::dispatch($data);
 
         return $this->respondWithToken($token);
 
     }
 
     /**
-     * @param RegisterUserDTO $DTO
-     * @return User
+     * @param RegisterCustomerDTO $DTO
+     * @return Customer
      */
-    public function create(RegisterUserDTO $DTO): User
+    public function create(RegisterCustomerDTO $DTO): Customer
     {
-        return User::create([
-            'role_id' => $DTO->roleId,
+        return Customer::create([
             'name' => $DTO->name,
             'phone' => $DTO->phone,
             'email' => $DTO->email,
