@@ -57,11 +57,13 @@ class OrderService
         //получение корзины пользователя
         $cart = $user->cart;
         if ($cart == null){
+            Log::critical('Critical!!!');
             throw new CreateOrderException('У пользователя нет корзины');
         }
         //получение продуктов из корзины
         $foods = $cart->foods;
         if ($foods->isEmpty()) {
+            Log::info('Info!!!');
             throw new CreateOrderException('Корзина пуста');
         }
         //добавление продуктов в заказ
