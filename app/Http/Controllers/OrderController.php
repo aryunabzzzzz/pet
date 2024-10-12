@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\CreateOrderException;
 use App\Http\Requests\CreateOrderRequest;
 use App\Http\Resources\JustBoolResource;
 use App\Http\Resources\OrderResource;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
+    /**
+     * @param OrderService $orderService
+     */
     public function __construct(public OrderService $orderService)
     {
     }
@@ -39,9 +40,8 @@ class OrderController extends Controller
     /**
      * @param CreateOrderRequest $request
      * @return AnonymousResourceCollection|JsonResponse
-     * @throws CreateOrderException
      */
-    public function store(CreateOrderRequest $request): AnonymousResourceCollection | JsonResponse
+    public function store(CreateOrderRequest $request): AnonymousResourceCollection|JsonResponse
     {
         $order = $this->orderService->create($request->createOrderDTO());
         return OrderResource::collection($order);

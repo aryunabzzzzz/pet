@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 /**
@@ -14,15 +15,24 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  * @property float $price
  * @property string|null $description
  *
- * @property-read Category|HasOne $category
+ * @property-read Category|BelongsTo $category
  * @property-read Image|MorphOne $image
+ * @property-read Cart|BelongsToMany $cart
+ * @property-read Order|BelongsToMany $order
  */
+
 class Food extends Model
 {
     use HasFactory;
 
+    /**
+     * @var bool
+     */
     public $timestamps = true;
 
+    /**
+     * @var string
+     */
     protected $table = 'foods';
 
     /**
@@ -101,7 +111,7 @@ class Food extends Model
     /**
      * @return string|null
      */
-    public function getDescription(): string|null
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -117,11 +127,11 @@ class Food extends Model
     }
 
     /**
-     * @return HasOne
+     * @return BelongsTo
      */
-    public function category(): HasOne
+    public function category(): BelongsTo
     {
-        return $this->hasOne(Category::class, 'id', 'category_id');
+        return $this->belongsTo(Category::class);
     }
 
     /**
@@ -132,5 +142,19 @@ class Food extends Model
         return $this->morphOne(Image::class, 'imageable');
     }
 
+    /**
+     * @return BelongsToMany
+     */
+    public function carts(): BelongsToMany
+    {
+        return $this->belongsToMany(Cart::class);
+    }
 
+    /**
+     * @return BelongsToMany
+     */
+    public function orders(): BelongsToMany
+    {
+        return $this->belongsToMany(Order::class);
+    }
 }

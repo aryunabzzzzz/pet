@@ -24,9 +24,9 @@ class RegisterRequest extends FormRequest
     {
         return [
             'roleId' => 'required|exists:roles,id',
-            'name' => 'required|string',
-            'phone' => 'required|string',
-            'email' => 'required|string|email|unique:users,email',
+            'name' => 'required|regex:/[a-zA-Z]{3,}/|string',
+            'phone' => 'required|regex:/\+?\d?[ .]?[ .\-(]?\d{3}[ .\-)]?[ .]?\d{3}[ .\-]?\d{2}[ .\-]?\d{2}/|string',
+            'email' => 'required|string|regex:/\w+?.?\w+@\w+.\w{2,5}/|unique:users,email',
             'birthday' => 'nullable|date',
             'password' => 'required|string',
         ];
@@ -40,7 +40,7 @@ class RegisterRequest extends FormRequest
         return [
             '*.required'=>'Поле :attribute обязательное',
             '*.string'=>'Поле :attribute должно быть строкой',
-            '*.date'=>'Поле :attribute должно быть датой',
+            '*.date'=>'Поле :attribute должно быть датой'
         ];
     }
 
@@ -79,7 +79,7 @@ class RegisterRequest extends FormRequest
     /**
      * @return string|null
      */
-    public function getBirthday(): string|null
+    public function getBirthday(): ?string
     {
         return $this->get('birthday');
     }

@@ -4,6 +4,13 @@ namespace App\Data\DTO\Food;
 
 class GetFoodDTO
 {
+    /**
+     * @param string|null $name
+     * @param int|null $categoryId
+     * @param float|null $price
+     * @param float|null $minPrice
+     * @param float|null $maxPrice
+     */
     public function __construct(
         public readonly string|null $name,
         public readonly int|null $categoryId,
@@ -27,5 +34,4 @@ class GetFoodDTO
             'maxPrice' => $this->maxPrice,
         ];
     }
-
 }

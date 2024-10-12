@@ -14,14 +14,24 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
  *
  * @property-read Image|MorphOne $image
  */
+
 class Drink extends Model
 {
     use HasFactory;
 
+    /**
+     * @var bool
+     */
     public $timestamps = true;
 
+    /**
+     * @var string
+     */
     protected $table = 'drink';
 
+    /**
+     * @var array
+     */
     protected $fillable = [
         'id',
         'name',
@@ -98,6 +108,4 @@ class Drink extends Model
     {
         return $this->morphOne(Image::class, 'imageable');
     }
-
-
 }

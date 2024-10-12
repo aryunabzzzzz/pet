@@ -42,7 +42,6 @@ class StoreFoodRequest extends FormRequest
         ];
     }
 
-
     /**
      * @return string
      */
@@ -70,7 +69,7 @@ class StoreFoodRequest extends FormRequest
     /**
      * @return string|null
      */
-    private function getDescription(): string|null
+    private function getDescription(): ?string
     {
         return $this->input('description');
     }

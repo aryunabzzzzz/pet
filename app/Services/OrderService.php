@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Data\DTO\Order\CreateOrderDTO;
+use App\Events\OrderCreated;
 use App\Exceptions\CreateOrderException;
-use App\Http\Controllers\MailController;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
@@ -13,20 +13,47 @@ use Illuminate\Support\Facades\Log;
 
 class OrderService
 {
+    /**
+     * @return Collection
+     */
     public function getAll(): Collection
     {
         return Order::all();
     }
 
+    /**
+     * @param int $id
+     * @return Collection
+     */
     public function getById(int $id): Collection
     {
         return Order::with('foods')->where('id', $id)->get();
     }
 
+    /**
+     * @param CreateOrderDTO $DTO
+     * @return Collection|JsonResponse
+     * @throws CreateOrderException
+     */
     public function create(CreateOrderDTO $DTO): Collection|JsonResponse
     {
         $order = Order::create($DTO->toArray());
-        $user = User::find($DTO->customerId);
+        $this->addFoodsIntoOrder($DTO->customerId, $order->id);
+
+        //отправка письма на почту через событие
+        event(new OrderCreated($order));
+        return Order::with('foods')->where('id',$order->id)->get();
+    }
+
+    /**
+     * @param int $userId
+     * @param int $orderId
+     * @return void
+     * @throws CreateOrderException
+     */
+    public function addFoodsIntoOrder(int $userId, int $orderId): void
+    {
+        $user = User::find($userId);
         //получение корзины пользователя
         $cart = $user->cart;
         if ($cart == null){
@@ -38,19 +65,17 @@ class OrderService
             throw new CreateOrderException('Корзина пуста');
         }
         //добавление продуктов в заказ
+        $order = Order::find($orderId);
         foreach ($foods as $food) {
             $price = $food->price * $food->pivot->quantity;
             $order->foods()->attach($food->id, ['quantity' => $food->pivot->quantity, 'price' => $price]);
         }
-        //отправка письма на почту
-        $mail = new MailController();
-        $mail->send($user->getEmail(), $user->getName());
-
-        //добавить удаление(очищение) корзины
-        Log::channel('daily_order')->info("Пользователь {$user->getName()} успешно создал заказ");
-        return Order::with('foods')->where('id',$order->id)->get();
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     */
     public function delete(int $id): bool
     {
         $order = Order::find($id);

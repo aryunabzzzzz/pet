@@ -53,5 +53,4 @@ class UpdateCartRequest extends FormRequest
     {
         return $this->input('quantity');
     }
-
 }

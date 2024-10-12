@@ -45,7 +45,7 @@ class GetFoodRequest extends FormRequest
     /**
      * @return string|null
      */
-    private function getName(): string|null
+    private function getName(): ?string
     {
         return $this->input('name');
     }
@@ -53,7 +53,7 @@ class GetFoodRequest extends FormRequest
     /**
      * @return int|null
      */
-    private function getCategoryId(): int|null
+    private function getCategoryId(): ?int
     {
         return $this->input('categoryId');
     }
@@ -61,7 +61,7 @@ class GetFoodRequest extends FormRequest
     /**
      * @return float|null
      */
-    private function getPrice(): float|null
+    private function getPrice(): ?float
     {
         return $this->input('price');
     }
@@ -69,7 +69,7 @@ class GetFoodRequest extends FormRequest
     /**
      * @return float|null
      */
-    private function getMinPrice(): float|null
+    private function getMinPrice(): ?float
     {
         return $this->input('minPrice');
     }
@@ -77,7 +77,7 @@ class GetFoodRequest extends FormRequest
     /**
      * @return float|null
      */
-    private function getMaxPrice(): float|null
+    private function getMaxPrice(): ?float
     {
         return $this->input('maxPrice');
     }

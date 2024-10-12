@@ -9,6 +9,7 @@ services:
       - 9000:9000
     volumes:
       - '.:/var/www/html'
+      - './php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini'
     depends_on:
       - mysql
     env_file:
@@ -39,3 +40,9 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
     volumes:
       - ./volumes/mysql:/var/lib/mysql
+
+  redis:
+    image: redis:7.2-rc-alpine3.18
+    restart: always
+    ports:
+        - ${REDIS_PORT}:6379

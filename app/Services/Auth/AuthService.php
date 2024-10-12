@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthService
 {
+    /**
+     * @param string $email
+     * @param string $password
+     * @return JsonResponse
+     */
     public function login(string $email, string $password): JsonResponse
     {
         if (! $token = auth()->attempt([
@@ -22,6 +27,10 @@ class AuthService
         return $this->respondWithToken($token);
     }
 
+    /**
+     * @param $token
+     * @return JsonResponse
+     */
     private function respondWithToken($token): JsonResponse
     {
         return response()->json([
@@ -31,9 +40,26 @@ class AuthService
         ]);
     }
 
+    /**
+     * @param RegisterUserDTO $DTO
+     * @return JsonResponse
+     */
     public function register(RegisterUserDTO $DTO): JsonResponse
     {
-        $user = User::create([
+        $user = $this->create($DTO);
+        $token = auth()->login($user);
+
+        return $this->respondWithToken($token);
+
+    }
+
+    /**
+     * @param RegisterUserDTO $DTO
+     * @return User
+     */
+    public function create(RegisterUserDTO $DTO): User
+    {
+        return User::create([
             'role_id' => $DTO->roleId,
             'name' => $DTO->name,
             'phone' => $DTO->phone,
@@ -41,23 +67,22 @@ class AuthService
             'birthday' => $DTO->birthday,
             'password' => Hash::make($DTO->password),
         ]);
-        $token = auth()->login($user);
-
-        return $this->respondWithToken($token);
-
     }
 
+    /**
+     * @return bool
+     */
     public function logout(): bool
     {
         auth()->logout();
         return true;
     }
 
+    /**
+     * @return JsonResponse
+     */
     public function refresh(): JsonResponse
     {
         return $this->respondWithToken(auth()->refresh());
     }
-
-
-
 }

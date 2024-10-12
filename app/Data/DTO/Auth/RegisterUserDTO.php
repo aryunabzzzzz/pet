@@ -4,6 +4,14 @@ namespace App\Data\DTO\Auth;
 
 class RegisterUserDTO
 {
+    /**
+     * @param int $roleId
+     * @param string $name
+     * @param string $phone
+     * @param string $email
+     * @param string|null $birthday
+     * @param string $password
+     */
     public function __construct(
         public readonly int $roleId,
         public readonly string $name,
