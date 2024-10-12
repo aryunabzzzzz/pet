@@ -6,6 +6,7 @@ use App\Http\Controllers\FoodController;
 use App\Http\Controllers\FoodExportController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\QueryBuilder;
 use App\Http\Controllers\UploadsController;
 use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
@@ -30,7 +31,7 @@ Route::post('users', [CustomerController::class, 'store']);
 Route::patch('users/{id}', [CustomerController::class, 'update']);
 Route::delete('users/{id}', [CustomerController::class, 'destroy']);
 
-Route::middleware('auth:api')->controller(CartController::class)->group(function () {
+Route::controller(CartController::class)->group(function () {
     Route::get('carts','index');
     Route::get('carts/{id}','show');
     Route::post('carts', 'store');
@@ -60,3 +61,4 @@ Route::get('uploads', [UploadsController::class, 'index']);
 Route::get('export', [FoodExportController::class, 'export']);
 //Route::get('get', [FoodExportController::class, 'getAll']);
 
+Route::get('test', [QueryBuilder::class, 'index']);
